@@ -194,7 +194,8 @@ struct Verification: Codable {
     <td align="center"><strong>Estadísticas</strong></td>
   </tr>
   <tr>
-    <td><img src="./screenshots/04_resultado.png" width="250"/></td>
+    <td><img src="<img width="270" height="552" alt="image" src="https://github.com/user-attachments/assets/f6a743fa-ec1c-4cd1-a5b9-14a692e86736" />
+" width="250"/></td>
     <td><img src="./screenshots/05_detalle.png" width="250"/></td>
     <td><img src="./screenshots/06_estadisticas.png" width="250"/></td>
   </tr>
