@@ -175,31 +175,6 @@ struct Verification: Codable {
 
 ---
 
-## 📸 Screenshots
-
-<table>
-  <tr>
-    <td align="center"><strong>Home</strong></td>
-    <td align="center"><strong>Historial</strong></td>
-    <td align="center"><strong>Verificación</strong></td>
-  </tr>
-  <tr>
-    <td><img src="./screenshots/01_home.png" width="250"/></td>
-    <td><img src="./screenshots/02_historial.png" width="250"/></td>
-    <td><img src="./screenshots/03_verificacion.png" width="250"/></td>
-  </tr>
-  <tr>
-    <td align="center"><strong>Resultado</strong></td>
-    <td align="center"><strong>Detalle</strong></td>
-    <td align="center"><strong>Estadísticas</strong></td>
-  </tr>
-  <tr>
-    <td><img src="<img width="270" height="552" alt="image" src="https://github.com/user-attachments/assets/f6a743fa-ec1c-4cd1-a5b9-14a692e86736" />
-" width="250"/></td>
-    <td><img src="./screenshots/05_detalle.png" width="250"/></td>
-    <td><img src="./screenshots/06_estadisticas.png" width="250"/></td>
-  </tr>
-</table>
 
 <!-- 
   INSTRUCCIONES: 
@@ -210,18 +185,6 @@ struct Verification: Codable {
 
 ---
 
-## 🎬 Video de Navegación
-
-> 📎 **Video/GIF del flujo completo (60–90 seg):**
->
-> 👉 [`Insertar link al video o GIF aquí`](#)
-
-<!-- 
-  INSTRUCCIONES: Reemplazar con:
-  - GIF en el repo: ![Demo](./screenshots/demo.gif)
-  - Link de YouTube/Loom: https://www.loom.com/share/XXXXX
-  - O archivo .mov/.mp4 en el repo
--->
 
 ---
 
