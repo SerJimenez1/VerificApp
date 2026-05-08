@@ -164,7 +164,8 @@ struct Verification: Codable {
 
 > 📎 **Boceto en papel / Mockup Figma:**
 >
-> 👉 [`Insertar link de Figma o foto del boceto aquí`](#)
+> 👉 [`https://stitch.withgoogle.com/projects/7301662605973985112
+        https://www.figma.com/proto/PWIWcLanZlV9WMNOdytRcA/Untitled?node-id=10-47&p=f&t=xaK7m1OPTFAnlirF-0&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1`](#)
 
 <!-- 
   INSTRUCCIONES: Reemplazar el link de arriba con:
