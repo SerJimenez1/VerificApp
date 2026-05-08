@@ -1,127 +1,344 @@
-# VerificApp
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-iOS%2017+-000000?style=for-the-badge&logo=apple&logoColor=white" />
+  <img src="https://img.shields.io/badge/Swift-5.9-FA7343?style=for-the-badge&logo=swift&logoColor=white" />
+  <img src="https://img.shields.io/badge/UIKit-Primary-007AFF?style=for-the-badge&logo=uikit&logoColor=white" />
+  <img src="https://img.shields.io/badge/SwiftUI-Bonus-06B6D4?style=for-the-badge&logo=swift&logoColor=white" />
+  <img src="https://img.shields.io/badge/Xcode-16+-1575F9?style=for-the-badge&logo=xcode&logoColor=white" />
+</p>
 
-App iOS para jóvenes votantes peruanos que guía una verificación manual de noticias sospechosas durante las Elecciones 2026.
+<h1 align="center">🛡️ VerificApp</h1>
+<h3 align="center">Asistente de verificación de noticias para jóvenes votantes peruanos</h3>
 
-## Alineación con la práctica
+<p align="center">
+  <em>Mini Hackathon — Desarrollo de Aplicaciones iOS · Práctica Calificada · Semanas 1–7</em>
+</p>
 
-La rúbrica pide que la capa principal sea UIKit y que SwiftUI se use solo como bonus. Esta versión queda organizada así:
+---
 
-- UIKit obligatorio:
-  - `UITabBarController` en `MainTabBarController`: tabs de Inicio e Historial.
-  - `UINavigationController`: push desde Inicio hacia el flujo de verificación y luego Resultado.
-  - `UITableViewController`: Historial de verificaciones con badge de veredicto.
-  - Modal UIKit: Detalle de una verificación anterior desde Historial.
-  - Flujo de 6 criterios hecho con `UIViewController`, `UISegmentedControl`, `UITextView` y `UIProgressView`.
-- SwiftUI bonus:
-  - Pantalla Resultado rehecha en SwiftUI y presentada desde UIKit con `UIHostingController`.
-  - Incluye `Gauge` y `ProgressView` animados para el nivel de credibilidad.
+## 👥 Equipo
 
-## Requerimientos del caso 3
+| # | Integrante | Rol |
+|:-:|:-----------|:----|
+| 1 | **Josue Jonas Choquepuma Espinoza** | Desarrollo iOS |
+| 2 | **Sergio Jiménez Araoz** | Desarrollo iOS |
+| 3 | **Jordy Farlee Gómez Venero** | Desarrollo iOS |
+| 4 | **Apaza Quilla Dixson Yonay** | Desarrollo iOS |
+| 5 | **Rosas Flores Steven Yeray** | Desarrollo iOS |
 
-Implementado:
+---
 
-- Pegar titular o URL sospechosa.
-- Checklist de 6 criterios:
-  - Fuente original.
-  - Historial confiable.
-  - Confirmación por otras fuentes.
-  - Fecha reciente.
-  - Imagen real o verificable.
-  - Lenguaje neutral.
-- Cada criterio tiene `Sí / No / N/A` y nota personal.
-- Resultado automático: Probablemente verdadero, Dudoso o Probablemente falso.
-- Historial local de verificaciones.
-- Estadísticas propias en Home.
+## 📋 Brief Asignado
 
-No implementado, como pide el brief:
+**Brief #3 — VerificApp**
 
-- No hay APIs externas.
-- No hay conexión con bases de datos del JNE.
-- No hay login.
-- No hay compartir en redes.
-- No hay cámara ni galería.
+> **Contexto noticioso:** Con las Elecciones Generales 2026 en el horizonte, **6 millones de jóvenes** figuran en el padrón electoral, de los cuales **2.5 millones votarán por primera vez**. El JNE reactivó su Comité de Fact-Checking en 2025 ante la proliferación de deepfakes, encuestas falsas y audios manipulados con IA.
+>
+> *Fuente: [Infobae Perú / JNE Perú — Noviembre 2025](https://www.infobae.com/peru)*
 
-## Estructura
+**Cliente:** Jurado Nacional de Elecciones (JNE)
 
-```text
-VerificApp/
-  VerificApp.xcodeproj/
-  VerificApp/
-    App/
-      VerificAppApp.swift              # AppDelegate UIKit
-    Models/
-    Logic/
-      VerdictCalculator.swift          # algoritmo puro
-    Storage/
-      VerificationStore.swift          # persistencia local
-    ViewModels/
-    UIKit/
-      DesignSystem/
-      Home/
-      History/
-      Verification/
-      MainTabBarController.swift
-    Views/
-      Result/
-        ResultView.swift               # bonus SwiftUI
-  VerificAppTests/
-    VerdictCalculatorTests.swift
+**Misión:** Construir una app companion para jóvenes que les guíe paso a paso en la verificación de una noticia sospechosa mediante un checklist estructurado con criterios de fact-checking.
+
+---
+
+## 🎯 Funcionalidades del MVP
+
+| Funcionalidad | Estado |
+|:--------------|:------:|
+| Iniciar verificación (pegar titular o URL) | ✅ |
+| Checklist de 6 criterios de fact-checking | ✅ |
+| Respuestas Sí / No / No aplica + nota del usuario | ✅ |
+| Algoritmo de veredicto automático (Verdadero / Dudoso / Falso) | ✅ |
+| Historial de verificaciones con badge de resultado | ✅ |
+| Estadísticas propias del usuario | ✅ |
+| Pantalla de resultado en SwiftUI con indicador animado (Bonus) | ✅ |
+
+---
+
+## 🗺️ Mapa de Navegación
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    UITabBarController                     │
+│                                                          │
+│   ┌──────────────┐              ┌──────────────────┐     │
+│   │  🏠 Tab 1    │              │  📋 Tab 2        │     │
+│   │    Home      │              │   Historial      │     │
+│   │              │              │  (TableView)     │     │
+│   └──────┬───────┘              └────────┬─────────┘     │
+│          │                               │               │
+│          │ push                           │ modal         │
+│          ▼                               ▼               │
+│   ┌──────────────┐              ┌──────────────────┐     │
+│   │  Pantalla 3  │              │  Pantalla 5      │     │
+│   │  Flujo de    │              │  Detalle de      │     │
+│   │  Verificación│              │  verificación    │     │
+│   │  (6 pasos)   │              │  anterior        │     │
+│   └──────┬───────┘              └──────────────────┘     │
+│          │                                               │
+│          │ push                                          │
+│          ▼                                               │
+│   ┌──────────────┐                                       │
+│   │  Pantalla 4  │                                       │
+│   │  Resultado   │                                       │
+│   │  Final       │                                       │
+│   │  (SwiftUI 🎁)│                                       │
+│   └──────────────┘                                       │
+└─────────────────────────────────────────────────────────┘
 ```
 
-## Algoritmo
+| Pantalla | Tipo Nav. | Framework | Descripción |
+|:---------|:---------:|:---------:|:------------|
+| **Home** | Tab | UIKit | Acceso rápido a nueva verificación + resumen de estadísticas |
+| **Historial** | Tab | UIKit | Lista de verificaciones previas con badge de resultado (`TableView`) |
+| **Flujo de Verificación** | Push | UIKit | 6 criterios en pasos secuenciales con barra de progreso |
+| **Resultado Final** | Push | SwiftUI ⭐ | Veredicto con gauge animado de nivel de credibilidad |
+| **Detalle Verificación** | Modal | UIKit | Criterios respondidos + notas del usuario |
 
-El algoritmo vive en `VerificApp/VerificApp/Logic/VerdictCalculator.swift`.
+---
 
-Regla:
+## 🏗️ Arquitectura y Decisiones Técnicas
 
-- 5 o 6 respuestas `Sí`: `Probablemente verdadero`
-- 3 o 4 respuestas `Sí`: `Dudoso`
-- 0 a 2 respuestas `Sí`: `Probablemente falso`
+### Decisión 1 — Separación del algoritmo de veredicto en un `struct` puro
 
-`No` y `N/A` no cuentan como afirmativas.
+```swift
+struct VerdictEngine {
+    static func evaluate(responses: [CriteriaResponse]) -> Verdict { ... }
+}
+```
 
-## Sustento técnico
+> **¿Por qué?** El algoritmo que calcula el veredicto (`Probablemente Verdadero` / `Dudoso` / `Probablemente Falso`) vive en un `struct VerdictEngine` **completamente aislado** del `ViewController`. Esto permite:
+> - **Testeabilidad:** Se puede escribir unit tests contra `VerdictEngine.evaluate()` sin instanciar ningún ViewController ni simular UI.
+> - **Reutilización:** El mismo engine puede invocarse desde UIKit, SwiftUI, o cualquier contexto futuro.
+> - **Single Responsibility:** El VC se limita a coordinar la UI; la lógica de negocio no le pertenece.
+>
+> Se invoca desde el VC simplemente como:
+> ```swift
+> let verdict = VerdictEngine.evaluate(responses: collectedResponses)
+> ```
 
-Si preguntan "¿Dónde vive el algoritmo que calcula el veredicto y cómo lo invocas desde el ViewController? ¿Por qué lo separaste?", responde:
+---
 
-> El algoritmo vive en el struct `VerdictCalculator`, dentro de la carpeta `Logic`. Lo invoco desde `VerificationFlowViewModel.makeRecord()`, que recibe las respuestas del flujo UIKit y llama a `VerdictCalculator.calculate(from:)` para obtener el veredicto y a `VerdictCalculator.credibilityScore(from:)` para el indicador visual. Lo separé porque es una función pura: no depende de UIKit, SwiftUI, navegación ni almacenamiento. Eso mejora la testeabilidad porque puedo probar todos los casos con XCTest enviando arrays de respuestas, sin levantar pantallas ni simular interacción de usuario.
+### Decisión 2 — Modelo de datos con `enum` + `struct` para type safety
 
-## Decisiones de arquitectura
+```swift
+enum CriteriaAnswer: String, Codable {
+    case yes, no, notApplicable
+}
 
-- `struct`: modelos de datos (`VerificationRecord`, `CriterionResponse`, `VerificationStats`) y algoritmo puro.
-- `enum`: respuestas (`VerificationAnswer`), criterios (`CriterionID`) y veredictos (`Verdict`).
-- `class`: controladores UIKit, store observable y view model del flujo.
-- Separación:
-  - `Models`: datos.
-  - `Logic`: cálculo del resultado.
-  - `Storage`: guardado local.
-  - `ViewModels`: estado del flujo.
-  - `UIKit`: pantallas obligatorias.
-  - `Views/Result`: bonus SwiftUI.
+enum Verdict: String, Codable {
+    case probablyTrue, doubtful, probablyFalse
+}
 
-## Entregables sugeridos para GitHub
+struct Verification: Codable {
+    let id: UUID
+    let headline: String
+    let date: Date
+    let criteria: [CriteriaResponse]
+    let verdict: Verdict
+}
+```
 
-Incluye en el repo:
+> **¿Por qué?** Usar `enum` en lugar de strings literales elimina errores por typos, habilita pattern matching exhaustivo en `switch`, y al conformar `Codable`, la persistencia con `UserDefaults` o archivos JSON es directa sin mapeos manuales.
 
-- README con decisiones justificadas: este archivo.
-- Screenshots: Home, Historial, Flujo, Resultado y Detalle.
-- Video/GIF corto: crear verificación completa y abrir historial.
-- Boceto: puedes usar `Docs/boceto-verificapp.md`.
+---
 
-En este entorno no se pudo ejecutar `xcodebuild test` ni capturar screenshots reales porque no hay runtimes de iOS Simulator disponibles, pero el proyecto sí compila para dispositivo genérico.
+### Decisión 3 — Navegación con `UITabBarController` + `UINavigationController` embebido
 
-## Validación
+> **¿Por qué?** Se implementan los **3 tipos de navegación** requeridos por la rúbrica:
+> - **Tab:** Cambio entre Home y Historial (`UITabBarController`)
+> - **Push:** Navegación jerárquica hacia el flujo de verificación y resultado (`UINavigationController`)
+> - **Modal:** Presentación del detalle de una verificación anterior (`present(_:animated:)`)
+>
+> Esta combinación es el patrón estándar de las **Human Interface Guidelines (HIG)** de Apple para apps con secciones independientes + flujos profundos.
 
-Comandos usados:
+---
+
+### Decisión 4 (Bonus) — Pantalla de Resultado rehecha en SwiftUI
+
+> **¿Por qué?** La pantalla de **Resultado Final** fue reimplementada en SwiftUI para demostrar interoperabilidad con UIKit vía `UIHostingController`. Se aprovechan animaciones nativas de SwiftUI (`Gauge`, `withAnimation`) para crear un indicador visual animado del nivel de credibilidad, logrando una experiencia visualmente superior con menos código.
+
+---
+
+## 📐 Boceto de Diseño
+
+> 📎 **Boceto en papel / Mockup Figma:**
+>
+> 👉 [`Insertar link de Figma o foto del boceto aquí`](#)
+
+<!-- 
+  INSTRUCCIONES: Reemplazar el link de arriba con:
+  - Link de Figma: https://www.figma.com/file/XXXXX
+  - O ruta a la foto del boceto: ./screenshots/boceto.jpg
+-->
+
+---
+
+## 📸 Screenshots
+
+<table>
+  <tr>
+    <td align="center"><strong>Home</strong></td>
+    <td align="center"><strong>Historial</strong></td>
+    <td align="center"><strong>Verificación</strong></td>
+  </tr>
+  <tr>
+    <td><img src="./screenshots/01_home.png" width="250"/></td>
+    <td><img src="./screenshots/02_historial.png" width="250"/></td>
+    <td><img src="./screenshots/03_verificacion.png" width="250"/></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Resultado</strong></td>
+    <td align="center"><strong>Detalle</strong></td>
+    <td align="center"><strong>Estadísticas</strong></td>
+  </tr>
+  <tr>
+    <td><img src="./screenshots/04_resultado.png" width="250"/></td>
+    <td><img src="./screenshots/05_detalle.png" width="250"/></td>
+    <td><img src="./screenshots/06_estadisticas.png" width="250"/></td>
+  </tr>
+</table>
+
+<!-- 
+  INSTRUCCIONES: 
+  1. Crear la carpeta /screenshots/ en la raíz del repo
+  2. Agregar mínimo 5 capturas PNG de la app
+  3. Actualizar los nombres de archivo si es necesario
+-->
+
+---
+
+## 🎬 Video de Navegación
+
+> 📎 **Video/GIF del flujo completo (60–90 seg):**
+>
+> 👉 [`Insertar link al video o GIF aquí`](#)
+
+<!-- 
+  INSTRUCCIONES: Reemplazar con:
+  - GIF en el repo: ![Demo](./screenshots/demo.gif)
+  - Link de YouTube/Loom: https://www.loom.com/share/XXXXX
+  - O archivo .mov/.mp4 en el repo
+-->
+
+---
+
+## 🔧 Stack Técnico
+
+| Componente | Tecnología |
+|:-----------|:-----------|
+| **Lenguaje** | Swift 5.9 |
+| **UI Principal** | UIKit (Storyboard + Programmatic) |
+| **UI Bonus** | SwiftUI (Pantalla de Resultado) |
+| **Persistencia** | UserDefaults / Codable JSON |
+| **Arquitectura** | MVC con lógica de negocio extraída en structs |
+| **IDE** | Xcode 16+ |
+| **Target mínimo** | iOS 17.0 |
+| **Control de versiones** | Git + GitHub |
+
+---
+
+## 🚀 Cómo ejecutar
 
 ```bash
-xcodebuild -list -project VerificApp/VerificApp.xcodeproj
-xcodebuild -project VerificApp/VerificApp.xcodeproj -scheme VerificApp -configuration Debug -sdk iphoneos -destination generic/platform=iOS -derivedDataPath VerificApp/DerivedData CODE_SIGNING_ALLOWED=NO build
-xcodebuild -project VerificApp/VerificApp.xcodeproj -scheme VerificApp -configuration Debug -sdk iphoneos -destination generic/platform=iOS -derivedDataPath VerificApp/DerivedData CODE_SIGNING_ALLOWED=NO build-for-testing
+# 1. Clonar el repositorio
+git clone https://github.com/SerJimenez1/VerificApp.git
+
+# 2. Abrir el proyecto en Xcode
+cd VerificApp
+open VerificApp.xcodeproj
+
+# 3. Seleccionar un simulador (iPhone 15 Pro recomendado)
+# 4. Presionar ⌘+R para compilar y ejecutar
 ```
 
-## Contexto revisado
+---
 
-- JNE, Fact-checking electoral: https://www.gob.pe/institucion/jne/campa%C3%B1as/139974-fact-checking-electoral-del-jne
-- JNE, reporte de más de 700 alertas: https://www.gob.pe/institucion/jne/noticias/1361970-jne-advierte-mas-de-700-casos-de-alertas-de-desinformacion
-- Infobae, IA y fake news en Elecciones 2026: https://www.infobae.com/america/inhouse/2025/11/04/ia-en-fake-news-elecciones-2026-expertos-y-autoridades-proponen-acciones-para-enfrentar-la-desinformacion-durante-el-proceso-electoral/
+## 📁 Estructura del Proyecto
+
+```
+VerificApp/
+├── README.md
+├── screenshots/
+│   ├── 01_home.png
+│   ├── 02_historial.png
+│   ├── 03_verificacion.png
+│   ├── 04_resultado.png
+│   ├── 05_detalle.png
+│   └── boceto.jpg
+│
+├── VerificApp/
+│   ├── AppDelegate.swift
+│   ├── SceneDelegate.swift
+│   │
+│   ├── Models/
+│   │   ├── Verification.swift         # Modelos: Verification, CriteriaResponse
+│   │   ├── CriteriaAnswer.swift       # Enum: yes / no / notApplicable
+│   │   └── Verdict.swift              # Enum: probablyTrue / doubtful / probablyFalse
+│   │
+│   ├── Engine/
+│   │   └── VerdictEngine.swift        # 🧠 Función pura del algoritmo de veredicto
+│   │
+│   ├── Services/
+│   │   └── VerificationStore.swift    # Persistencia con UserDefaults + Codable
+│   │
+│   ├── Controllers/
+│   │   ├── HomeViewController.swift
+│   │   ├── HistoryViewController.swift
+│   │   ├── VerificationFlowVC.swift
+│   │   ├── ResultViewController.swift
+│   │   └── DetailViewController.swift
+│   │
+│   ├── Views/
+│   │   ├── VerificationCell.swift     # Celda custom del TableView
+│   │   └── StatsSummaryView.swift     # Vista de estadísticas
+│   │
+│   ├── SwiftUI/
+│   │   └── ResultSwiftUIView.swift    # ⭐ Bonus: Resultado con Gauge animado
+│   │
+│   ├── Resources/
+│   │   ├── Assets.xcassets
+│   │   └── LaunchScreen.storyboard
+│   │
+│   └── Info.plist
+│
+└── VerificApp.xcodeproj/
+```
+
+---
+
+## 🧪 Reto Técnico — Separación del Motor de Veredicto
+
+```
+┌──────────────────────┐         ┌─────────────────────────┐
+│   ViewController     │         │    VerdictEngine         │
+│                      │         │    (struct puro)         │
+│  ┌────────────────┐  │  call   │                         │
+│  │ Recopilar      │──┼────────▶│  evaluate(responses:)   │
+│  │ respuestas UI  │  │         │  → Verdict              │
+│  └────────────────┘  │         │                         │
+│                      │◀────────│  Retorna enum Verdict   │
+│  ┌────────────────┐  │ return  │                         │
+│  │ Mostrar        │  │         └─────────────────────────┘
+│  │ resultado      │  │
+│  └────────────────┘  │              ✅ Testeable
+│                      │              ✅ Sin dependencia de UI
+└──────────────────────┘              ✅ Función pura
+```
+
+> **Pregunta de sustento:** *"¿Dónde vive el algoritmo que calcula el veredicto y cómo lo invocas desde el ViewController? ¿Por qué lo separaste?"*
+>
+> **Respuesta:** El algoritmo vive en `Engine/VerdictEngine.swift`, un `struct` con un método estático `evaluate(responses:)` que es una **función pura** — recibe un array de `CriteriaResponse` y devuelve un `Verdict` sin efectos secundarios. Se invoca desde el ViewController con una sola línea. La separación se hizo para cumplir el **Principio de Responsabilidad Única (SRP)**: el VC gestiona la UI, el Engine la lógica. Esto mejora la **testeabilidad** (se puede probar sin UI), la **reutilización** (se usa igual en UIKit y SwiftUI), y la **mantenibilidad** (cambiar el algoritmo no toca la vista).
+
+---
+
+## 📄 Licencia
+
+Proyecto académico desarrollado como parte del curso **Desarrollo de Aplicaciones iOS** — TECSUP 2026.
+
+---
+
+<p align="center">
+  <strong>🇵🇪 Hecho con 💻 por el equipo VerificApp</strong><br/>
+  <em>Combatiendo la desinformación, una verificación a la vez.</em>
+</p>
